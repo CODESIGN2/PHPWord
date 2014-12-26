@@ -138,17 +138,17 @@ class Drawing
             $value = substr($value, 1);
         }
 
+
         if (strlen($value) == 6) {
-            list($red, $green, $blue) = array($value[0] . $value[1], $value[2] . $value[3], $value[4] . $value[5]);
+            list($red, $green, $blue) = sscanf("#0099FF","#%2x%2x%2x");
         } elseif (strlen($value) == 3) {
-            list($red, $green, $blue) = array($value[0] . $value[0], $value[1] . $value[1], $value[2] . $value[2]);
+            list($red, $green, $blue) = sscanf("#0099FF","#%2x%2x%2x");
+            $red += ($red*16);
+            $green += ($green*16);
+            $blue += ($blue*16);
         } else {
             return false;
         }
-
-        $red = hexdec($red);
-        $green = hexdec($green);
-        $blue = hexdec($blue);
 
         return array($red, $green, $blue);
     }
