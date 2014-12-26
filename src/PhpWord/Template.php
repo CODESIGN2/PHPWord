@@ -448,53 +448,53 @@ class Template
         return substr($this->documentXML, $startPosition, ($endPosition - $startPosition));
     }
 	
-	/*
-	 * Return all image files within a template file
-	 * 
-	 * @param bool $stripDir
-	 * @return array with image files from template file
-	 */
-	public function listImages($stripDir=true) {
-		$_supportedImageTypes = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif', 'tiff');
-		$out = array();
-		for($i = 0; $i < $this->_objZip->numFiles; $i++) {
-			$fileName = $this->_objZip->getNameIndex($i);
-			
-			$inf = pathinfo($fileName);
-			$ext = strtolower($inf['extension']);
-			if(in_array($ext,$_supportedImageTypes)) {
-				if(!in_array($fileName,$out)) {
-					$fnOut = $stripDir ? end(explode('/',$fileName)) : $fileName;
-					$out[] = $fnOut; // we only want file-names not full dir
-				}
-			}
-		}
-		return $out;
-	}
-	
-	/*
-	 * Replace a Template Image
-	 * Taken from http://phpword.codeplex.com/discussions/282759
-	 * Credit to the author "angji" - Nov 15, 2012 at 6:35 AM
-	 * 
-	 * @param string $path
-	 * @param string $imageName
-	 */
-	public function replaceImage($path,$imageName){
-		$this->_objZip->deleteName('word/media/'.$imageName);
-		$this->_objZip->addFile($path,'word/media/'.$imageName);
-	}
-	
-	/*
-	 * get Zip File as String
-	 * 
-	 * @return string
-	 */
-	public function getData() {
-		$this->save();
-		$fp = fopen($this->tempFileName,'r');
-		$stream = stream_get_contents($this->tempFileName);
-		fclose($fp);
-		return $stream;
-	}
+    /*
+     * Return all image files within a template file
+     * 
+     * @param bool $stripDir
+     * @return array with image files from template file
+     */
+    public function listImages($stripDir=true) {
+    	$_supportedImageTypes = array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif', 'tiff');
+    	$out = array();
+    	for($i = 0; $i < $this->_objZip->numFiles; $i++) {
+    		$fileName = $this->_objZip->getNameIndex($i);
+    		
+    		$inf = pathinfo($fileName);
+    		$ext = strtolower($inf['extension']);
+    		if(in_array($ext,$_supportedImageTypes)) {
+    			if(!in_array($fileName,$out)) {
+    				$fnOut = $stripDir ? end(explode('/',$fileName)) : $fileName;
+    				$out[] = $fnOut; // we only want file-names not full dir
+    			}
+    		}
+    	}
+    	return $out;
+    }
+    
+    /*
+     * Replace a Template Image
+     * Taken from http://phpword.codeplex.com/discussions/282759
+     * Credit to the author "angji" - Nov 15, 2012 at 6:35 AM
+     * 
+     * @param string $path
+     * @param string $imageName
+     */
+    public function replaceImage($path,$imageName){
+    	$this->_objZip->deleteName('word/media/'.$imageName);
+    	$this->_objZip->addFile($path,'word/media/'.$imageName);
+    }
+    
+    /*
+     * get Zip File as String
+     * 
+     * @return string
+     */
+    public function getData() {
+    	$this->save();
+    	$fp = fopen($this->tempFileName,'r');
+    	$stream = stream_get_contents($this->tempFileName);
+    	fclose($fp);
+    	return $stream;
+    }
 }
