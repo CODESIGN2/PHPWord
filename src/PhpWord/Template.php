@@ -19,6 +19,7 @@ namespace PhpOffice\PhpWord;
 
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\String;
+use PhpOffice\PhpWord\Shared\XMLUtils;
 use PhpOffice\PhpWord\Shared\ZipArchive;
 
 /**
@@ -358,11 +359,7 @@ class Template
         if (substr($search, 0, 2) !== '${' && substr($search, -1) !== '}') {
             $search = '${' . $search . '}';
         }
-
-        if (!String::isUTF8($replace)) {
-            $replace = utf8_encode($replace);
-        }
-        $replace = htmlspecialchars($replace);
+        XMLUtils::sanitizeForXML($replace); // send $replace as reference to sanitizeForXML
 
         $regExpDelim = '/';
         $escapedSearch = preg_quote($search, $regExpDelim);
